@@ -55,7 +55,7 @@ header {
     display: flex;
     padding: 16px;
     flex-direction: column;
-    height: 300px;
+    height: 400px;
     border-radius: 16px;
 }
 
@@ -74,7 +74,7 @@ header {
     box-shadow: 0 5px 10px rgba(154, 160, 185, .05), 0 15px 40px rgba(166, 173, 201, .2);
 }
 
-input[type=text], input[type=date] {
+input[type=text], input[type=number] {
     font-family: Raleway, sans-serif;
     background: #F5F1FF;
     border: 2px solid #9475EA;
@@ -94,7 +94,7 @@ input[type=text], input[type=date] {
     color: black;
     font-size: 24px;
     margin-top: auto;
-    align-self: flex-end;
+    align-self: center;
     cursor: pointer;
 }
 
@@ -103,7 +103,7 @@ input[type=text], input[type=date] {
     color: white;
 }
 
-input[type=text], input[type=date], .btn-submit:focus {
+input[type=text], input[type=number], .btn-submit:focus {
     outline: none;
 }
 
