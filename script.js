@@ -50,7 +50,7 @@ function loadDataFromStorage() {
 function addBook() {
   const textTitle = document.getElementById('title').value;
   const textAuthor = document.getElementById('author').value;
-  const textYear = document.getElementById('year').value;
+  const textYear = parseInt(document.getElementById('year').value);
   const isCompleted = document.getElementById('inputBookIsComplete').checked;
 
   const generatedID = generateId();
@@ -61,7 +61,6 @@ function addBook() {
   } else {
       books.push(bookObject);
       document.dispatchEvent(new Event(RENDER_EVENT));
-      alert('Data akan ditambahkan')
       saveData();
   }
 }
@@ -69,14 +68,13 @@ function addBook() {
 function addBookCompleted() {
   const textTitle = document.getElementById('title').value;
     const textAuthor = document.getElementById('author').value;
-    const textYear = document.getElementById('year').value;
+    const textYear = parseInt(document.getElementById('year').value);
  
     const generatedID = generateId();
     const bookObject = generateBookObject(generatedID, textTitle, textAuthor, textYear, true);
     books.push(bookObject);
     
     document.dispatchEvent(new Event(RENDER_EVENT));
-    alert('Data akan ditambahkan ke selesai')
     saveData();
 }
 
@@ -87,7 +85,6 @@ function addTaskToCompleted (bookId) {
    
     bookTarget.isCompleted = true;
     document.dispatchEvent(new Event(RENDER_EVENT));
-    alert('Data akan diselesaikan')
     saveData();
 }
 
@@ -117,8 +114,9 @@ function removeTaskFromCompleted(bookId) {
    
     books.splice(bookTarget, 1);
     document.dispatchEvent(new Event(RENDER_EVENT));
-    alert('Data akan dihapus')
+    confirm('Buku akan dihapus')
     saveData();
+    alert('Buku telah dihapus')
 }
 
 function undoTaskFromCompleted(bookId) {
@@ -128,20 +126,22 @@ function undoTaskFromCompleted(bookId) {
    
     bookTarget.isCompleted = false;
     document.dispatchEvent(new Event(RENDER_EVENT));
-    alert('Data akan dikembalikan ke belum selesai')
     saveData();
 }
 
 function makeBook(bookObject) {
-  const titleAuthor = document.createElement('h2');
-  titleAuthor.innerText = `${bookObject.title} - ${bookObject.author}`;
+  const title = document.createElement('h2');
+  title.innerText = bookObject.title;
+
+  const author = document.createElement('p');
+  author.innerText = `Penulis: ${bookObject.author}`;
 
   const year = document.createElement('p');
-  year.innerText = bookObject.year;
+  year.innerText = `Tahun: ${bookObject.year}`;
 
   const textContainer = document.createElement('div');
   textContainer.classList.add('inner');
-  textContainer.append(titleAuthor, year);
+  textContainer.append(title, author, year);
 
   const container = document.createElement('div');
   container.classList.add('item', 'shadow');
@@ -172,7 +172,14 @@ function makeBook(bookObject) {
           addTaskToCompleted(bookObject.id);
       });
 
-      container.append(checkButton);
+      const trashButton = document.createElement('button');
+      trashButton.classList.add('trash-button');
+
+      trashButton.addEventListener('click', function () {
+          removeTaskFromCompleted(bookObject.id);
+      });
+
+      container.append(checkButton, trashButton);
   }
 
   return container;
